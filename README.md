@@ -3,7 +3,7 @@ GraalVM workshop for Reliance group, India
 Table of Contents:
 
 * [Exercise 1: Requirements](#exercise-1-requirements)
-* [Exercise 2: GraalVM](#exercise-2-graalvm-enterprise)
+* [Exercise 2: GraalVM Enterprise](#exercise-2-graalvm-enterprise)
 * [Exercise 3: Microservices](#exercise-3-microservices)
 * [Exercise 4: SpringBoot](#exercise-4-springboot)
 
@@ -716,7 +716,9 @@ kind of commoditisation of languages and modules - you can use whichever
 language you think is best for your problem at hand, and whichever library you
 want, no matter which language it came from.
 
-# Exercise 3: Microservices: Creating your first Micronaut GraalVM application
+# Exercise 3: Microservices
+
+Creating your first Micronaut GraalVM application
 
 ![micronaut](images/micronaut.png)
 
