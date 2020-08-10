@@ -546,10 +546,17 @@ compile *ahead-of-time*, to a native executable image, instead of compiling
 *just-in-time* at runtime. This is similar to how a conventional compiler like
 `gcc` works.
 
+**:: Graal AOT - _Creating Binary Executable Using Native Image_::**
+
+Now let's creating our first binary executable file using GraalVM Native Image from an existing TopTen bytecode.
+Execute below command to create a TopTen's native binary executable:
+
 ![user input](images/userinput.png)
 >```sh
 > native-image --no-server TopTen
 >```
+
+The output is something like the following:
 
 ```
 [topten:37970]    classlist:   1,801.57 ms
@@ -611,7 +618,7 @@ running a short-running command with the JVM.
 
 ![user input](images/userinput.png)
 >```sh
-> /usr/bin/time -v ./topten small.txt
+> /usr/bin/time -v ./topten small.txt  # -l on Mac instead of -v
 >```
 
 ```
@@ -653,21 +660,20 @@ and allows you to have smaller Docker images.
 
 ## 3. Polyglot: Combine JavaScript, Java, and R
 
-As well as Java, GraalVM includes new implementations of JavaScript, Ruby, R and
-Python. These are written using a new language implementation framework called
-*Truffle* that makes it possible to implement language interpreters that are
+GraalVM includes implementations of JavaScript, Ruby, R and Python on JVM. These are written using a new language implementation framework called
+_**Truffle**_ that makes it possible to implement language interpreters that are
 both simple and high performance. When you write a language interpreter using
 Truffle, Truffle will automatically use GraalVM on your behalf to give you a JIT
 compiler for your language. So GraalVM is not only a JIT compiler and
 ahead-of-time native compiler for Java, it can also be a JIT compiler for
-JavaScript, Ruby, R and Python.
+JavaScript, Ruby, R and Python through Truffle.
 
 The languages in GraalVM aim to be drop-in replacements for your existing
 languages. For example we can install a Node.js module:
 
 ![user input](images/userinput.png)
 >```sh
-> npm install color
+> $GRAALVM_HOME/bin/npm install color
 >```
 
 ```
@@ -677,7 +683,7 @@ added 6 packages from 6 contributors and audited 7 packages in 6.931s
 ```
 
 We can write a little program using this module to convert an RGB HTML color to
-HSL:
+HSL (Hue, Saturation and Lightness):
 
 ```javascript
 var Color = require('color');
@@ -691,7 +697,7 @@ Then we can run that in the usual way:
 
 ![user input](images/userinput.png)
 >```sh
-> node color.js '#42aaf4'
+> $GRAALVM_HOME/bin/node color.js '#42aaf4'
 >```
 
 ```
@@ -722,7 +728,7 @@ First, let's install the express npm package:
 
 ![user input](images/userinput.png)
 >```sh
-> npm install express
+> $GRAALVM_HOME/bin/npm install express
 >```
 
 Next, let's run the following program:
@@ -762,7 +768,7 @@ app.listen(3000, function () {
 
 ![user input](images/userinput.png)
 >```sh
-> node --jvm --polyglot polyglot.js
+> $GRAALVM_HOME/bin/node --jvm --polyglot polyglot.js
 >```
 
 Open http://localhost:3000/ in your browser to see the result.
@@ -794,7 +800,7 @@ Change directory to the `complete` subdirectory within the cloned repo:
 > cd micronaut-creating-first-graal-app/complete
 >```
 
-## 0. Creating native image inside Docker
+## 1. Creating native image inside Docker
 
 With this approach you only need to build the fatjar and then use Docker to build the native image.
 
@@ -805,7 +811,7 @@ Build the Graal fatjar:
 > ./gradlew assemble
 >```
 
-Then build a docker image from it:
+Then build a docker image from it, but make sure docker daemon service is already ran.
 
 ![user input](images/userinput.png)
 >```sh
@@ -828,7 +834,7 @@ Execute the native image:
 We can see that the application starts in only 12ms in this example (actual time
 will vary).
 
-## 1. SetupSending a request
+## 2. SetupSending a request
 
 From another terminal, you can run a few cURL requests to test the application:
 
@@ -860,55 +866,21 @@ Finally, kill the docker container:
 
 This lab will focus on SpringBoot
 
-## 0. First clone the sample SpringBoot Application
+## 1. First clone the sample SpringBoot Application
 >```sh
 >git clone https://github.com/spring-projects-experimental/spring-graal-native.git
 >```
 
-## 1. Compile and Run the application using GraalVM Native Image
+## 2. Compile and Run the application using GraalVM Native Image
 >```sh
 >cd spring-graal-native
 >./mvnw clean package
->cd spring-graal-native-samples/spring-petclinic-jpa/
->./compile.sh (takes a long time and require a lot of memory, it is not yet optimized)
->./petclinic (first run can be slow like 1s, next ones are less than 0.2s, again it is not optimized yet)
+>cd spring-graalvm-native-samples/commandlinerunner
+>./build.sh
+>cd target
+>./commandlinerunner
 >```
-
-## 2. Launch Application in the browser
-Go to http://localhost:8080/
-
-Click on find owners menu
-
-Click on find owners button to see the list of owners
-
-Click on veterinarians menu
 
 ### Conclusions
 
 You have seen GraalVM in action, Microservices with GraalVM and also how a SpringBoot application works with GraalVM
-
-
-## Appendix: VNC
-
-If you'd like to connect to your VM graphically, follow these steps.
-
-While connected to your VM via SSH, start the VNC server as follows:
-
-![user input](images/userinput.png)
->```sh
->vncserver
->```
-
-Set a password when prompted.
-
-To connect graphically to the VNC server, you'll need a VNC client on your
-laptop.  You can use whatever you have previously installed or you can use the
-VNC Viewer for Chrome that is extremely easy to install.
-
-https://chrome.google.com/webstore/detail/vnc%C2%AE-viewer-for-google-ch/iabmpiboiopbgfabjmgeedhcmjenhbla/related
-
-![user input](images/userinput.png) Log into your VM using the provided IP
-Address.  The VNC port is **5901** so the server address you'll need
-to provide will look like **`n.n.n.n:5901`**
-
-When prompted, enter the VNC password you set earlier.
