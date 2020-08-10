@@ -874,7 +874,7 @@ This lab will focus on SpringBoot
 ## 2. Compile and Run the application using GraalVM Native Image
 >```sh
 >cd spring-graal-native
->./mvnw clean package
+>./build.sh
 >cd spring-graalvm-native-samples/commandlinerunner
 >./build.sh
 >cd target
