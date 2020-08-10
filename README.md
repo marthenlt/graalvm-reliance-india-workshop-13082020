@@ -2,16 +2,21 @@ GraalVM workshop for Reliance group, India
 
 Table of Contents:
 
-* [Exercise 1: GraalVM](#exercise-1-graalvm-enterprise)
-* [Exercise 2: Microservices](#exercise-2-microservices)
-* [Exercise 3: SpringBoot](#exercise-3-springboot)
+* [Exercise 1: Requirements](#exercise-1-requirements)
+* [Exercise 2: GraalVM](#exercise-2-graalvm-enterprise)
+* [Exercise 3: Microservices](#exercise-3-microservices)
+* [Exercise 4: SpringBoot](#exercise-4-springboot)
 
-# Exercise 1: GraalVM Enterprise
+# Exercise 1: Requirements
 
-There are a lot of different parts to GraalVM, so
-while you may have heard of it, there are almost certainly things that it can do
-that you don't know about yet. In this workshop we'll go through some of the
-diverse features of GraalVM and show you what they can do for you.
+In order to get yourself ready for this workshop, you need to prepare your machine/laptop to have the following requirements.
+
+  * Supported OS is MacOS and Linux. Windows is supported by GraalVM but for this workshop we do not use Windows.
+  * Install the following tools : git, curl, unzip, docker and your favourite IDE.
+
+# Exercise 2: GraalVM Enterprise
+
+There are a lot of different parts to GraalVM, so while you may have heard of it, there are almost certainly things that it can do that you don't know about yet. In this workshop we'll go through some of the diverse features of GraalVM and show you what they can do for you.
 
 In this workshop we will be using GraalVM Enterprise Edition 20.1.0 for JDK 8 which can be downloaded from [OTN - Oracle Technology Network](https://www.oracle.com/downloads/graalvm-downloads.html)
 
@@ -190,7 +195,7 @@ For this workshop we are only use either macOS or Linux. Windows has lesser feat
       Chrome Inspector        version 0.1
       Language Server         version 0.1
       Memory Tracer           version 0.2
-```
+  ```
 
   GraalVM Utility (gu) version
 
@@ -224,6 +229,7 @@ For this workshop we are only use either macOS or Linux. Windows has lesser feat
     >```sh
     >gu list
     >```
+
     Should output:
 
     ```
@@ -271,22 +277,28 @@ For this workshop we are only use either macOS or Linux. Windows has lesser feat
 
     Next, we will be running some application on GraalVM Enterprise.
 
-## 2. High-performance modern Java
+## 2. High-performance modern **JIT compiler** for Java.
+
+GraalVM in general can be ran in 2 different modes, first as a pure _**JIT compiler**_, and the other as _**AOT (Ahead-of-Time) compiler**_.
+
+We will try out GraalVM AOT at the later part of this workshop, but now let's drill into *JIT compiler and how it can help to boost application performance*.
+
+**:: Graal JIT ::**
 
 In this exercise, we'll be using materials from the following article:
 https://medium.com/graalvm/graalvm-ten-things-12d9111f307d
 
-You may want to clone the code onto your lab VM to help you follow along:
+The simplified version of the source code repository can be found in this [Github repo](https://github.com/marthenlt/native-image-workshop).
+
+You can simply clone the source code by using this command:
 
 ![user input](images/userinput.png)
 >```sh
->git clone https://github.com/chrisseaton/graalvm-ten-things.git
+>git clone https://github.com/marthenlt/native-image-workshop.git
 >```
 
-The *Graal* name in the GraalVM comes from the GraalVM compiler. GraalVM is
-[one compiler to rule them
-all](http://lafo.ssw.uni-linz.ac.at/papers/2013_Onward_OneVMToRuleThemAll.pdf),
-meaning that it's a single implementation of a compiler written as a library
+
+
 which can be used for many different things. For example we use the GraalVM
 compiler to compile both *ahead-of-time* and *just-in-time*, to compile
 multiple programming languages, and to multiple architectures.
@@ -704,7 +716,7 @@ kind of commoditisation of languages and modules - you can use whichever
 language you think is best for your problem at hand, and whichever library you
 want, no matter which language it came from.
 
-# Exercise 2: Microservices: Creating your first Micronaut GraalVM application
+# Exercise 3: Microservices: Creating your first Micronaut GraalVM application
 
 ![micronaut](images/micronaut.png)
 
@@ -783,7 +795,7 @@ Finally, kill the docker container:
 ![user input](images/micronaut-memory.png)
 
 
-# Exercise 3: SpringBoot
+# Exercise 4: SpringBoot
 
 This lab will focus on SpringBoot
 
