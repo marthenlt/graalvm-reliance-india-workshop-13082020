@@ -297,16 +297,35 @@ You can simply clone the source code by using this command:
 >git clone https://github.com/marthenlt/native-image-workshop.git
 >```
 
+Once you've cloned the above repo you can then change directory to ```native-image-workshop``` and unzip ```large.zip``` file. See the following commands:
 
+![user input](images/userinput.png)
+>```sh
+>cd native-image-workshop
+>unzip large.zip
+>```
 
-which can be used for many different things. For example we use the GraalVM
-compiler to compile both *ahead-of-time* and *just-in-time*, to compile
-multiple programming languages, and to multiple architectures.
+So if you do ```ls -al``` the output of your working directory is something like this :
 
-One simple way to use GraalVM is to use it as your Java JIT compiler.
+```
+drwxr-xr-x  12 mluther  staff        384 Aug 10 20:57 .
+drwxr-xr-x   7 mluther  staff        224 Aug 10 20:52 ..
+drwxr-xr-x  14 mluther  staff        448 Aug 10 20:59 .git
+-rw-r--r--   1 mluther  staff         33 Aug 10 20:04 .gitignore
+-rw-r--r--   1 mluther  staff        545 Aug 10 20:04 README.md
+-rw-r--r--   1 mluther  staff       1127 Aug 10 20:04 TopTen.java
+-rw-r--r--   1 mluther  staff         81 Aug 10 20:04 c2.sh
+-rw-r--r--   1 mluther  staff         59 Aug 10 20:04 graal.sh
+-rwxr-xr-x   1 mluther  staff  151397500 Sep 20  2019 large.txt
+-rw-r--r--   1 mluther  staff   40230188 Aug 10 20:04 large.zip
+-rw-r--r--   1 mluther  staff       1024 Aug 10 20:57 small.txt
+-rw-r--r--   1 mluther  staff         55 Aug 10 20:04 timer.bat
+```
 
-We'll use this example program, which gives you the top-ten words in a document.
-It uses modern Java language features like streams and collectors.
+We'll use ```TopTen.java``` example program, which gives you the top-ten words in ```large.txt``` file (file size is round 150 MB).
+It uses Stream Java API to traverse, sort and count all the words (total there are 22,377,500 words).
+
+Below is the TopTen.java program looks like:
 
 ```java
 import java.io.IOException;
@@ -344,9 +363,13 @@ public class TopTen {
 }
 ```
 
+**:: Graal JIT - _Compile The TopTen.java Program_ ::**
+
 GraalVM includes a `javac` compiler, but it isn't any different from the
 standard one for the purposes of this demo, so you could use your system `javac`
 instead if you wanted to.
+
+To compile use the following command:
 
 ![user input](images/userinput.png)
 >```sh
@@ -357,18 +380,18 @@ If we run the `java` command included in GraalVM we'll be automatically using
 the GraalVM JIT compiler - no extra configuration is needed. I'll use the `time`
 command to get the real, wall-clock elapsed time it takes to run the entire
 program from start to finish, rather than setting up a complicated
-micro-benchmark, and I'll use a large input so that we aren't quibbling about a
-few seconds here or there. The `large.txt` file is 150 MB.
+micro-benchmark.
 
-![user input](images/userinput.png)
-> ```sh
-> make large.txt
-> ```
+Use below command to measure how long GraalVM Enterprise can finished running TopTen.java
 
 ![user input](images/userinput.png)
 >```sh
 > time java TopTen large.txt
 >```
+
+The output looks like the following, but the speed is really depends on your machine/laptop.
+
+On Linux
 
 ```
 sed = 502500
@@ -387,6 +410,22 @@ user	0m30.780s
 sys	0m1.224s
 ```
 
+On MacOS (on my MacOS machine)
+
+```
+sed = 502500
+ut = 392500
+in = 377500
+et = 352500
+id = 317500
+eu = 317500
+eget = 302500
+vel = 300000
+a = 287500
+sit = 282500
+java TopTen large.txt  11.62s user 0.49s system 114% cpu 10.535 total
+```
+
 GraalVM is written in Java, rather than C++ like most other JIT compilers for
 Java. We think this allows us to improve it more quickly than existing
 compilers, with powerful new optimisations such as partial escape analysis that
@@ -401,6 +440,8 @@ could also compare against your standard JVM as well.
 >```sh
 > time java -XX:-UseJVMCICompiler TopTen large.txt
 >```
+
+On Linux
 
 ```
 sed = 502500
@@ -419,6 +460,22 @@ user	0m32.719s
 sys	0m0.490s
 ```
 
+On MacOS (on my MacOS machine)
+
+```
+sed = 502500
+ut = 392500
+in = 377500
+et = 352500
+id = 317500
+eu = 317500
+eget = 302500
+vel = 300000
+a = 287500
+sit = 282500
+java -XX:-UseJVMCICompiler TopTen large.txt  15.91s user 0.30s system 106% cpu 15.282 total
+```
+
 This shows GraalVM running our Java program in around two-thirds of the
 wall-clock (`real`) time it takes to run it with a standard HotSpot compiler. In
 an area where we are used to treating single-digit percentage increases in
@@ -427,7 +484,7 @@ performance as significant, this is a big-deal.
 You'll still get a result better than HotSpot if you use the Community
 Edition, but it won't be quite as a good as the Enterprise Edition.
 
-Twitter are one company [using GraalVM in production
+Twitter is one company [using GraalVM in production
 today](https://www.youtube.com/watch?v=OSyvidFXL7M), and they say that for them
 it is paying off in terms of real money saved. Twitter are using GraalVM to run
 Scala applications - GraalVM works at the level of JVM bytecode so it works for
@@ -436,21 +493,23 @@ any JVM language.
 This is the first way you can use GraalVM - simply as a drop-in better JIT
 compiler for your existing Java applications.
 
-## 2. Low-footprint, fast-startup Java
+
+## 2. Ahead-of-Time (AOT) Compiler for Java Bytecode
+
+We have learned from previous exercise that GraalVM Enterprise can boost Java program performance without changing any code.
+
+In the next exercise, we will be using GraalVM Native Image to Ahead-of-Time compile Java Bytecode into a native binary executable file.
+
+**:: Graal AOT ::**
 
 The Java platform is particularly strong for long-running processes and peak
 performance, but short-running processes can suffer from longer startup time and
 relatively high memory usage.
 
-For example, if we run the same application with a much smaller input - around 1
-KB instead of 150 MB, then it seems to take an unreasonably long time, and quite
-a lot of memory at 70 MB, to run for such a small file. We use `-l` to print the
+For example, if we run the same application with a much smaller input text file called ```small.txt``` - around 1 KB instead of 150 MB,
+then it seems to take an unreasonably long time, and quite a lot of memory at 70 MB, to run for such a small file. We use `-l` to print the
 memory used as well as time used.
 
-![user input](images/userinput.png)
->```sh
-> make small.txt
->```
 
 ![user input](images/userinput.png)
 >```sh
