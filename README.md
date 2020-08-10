@@ -150,25 +150,25 @@ For this workshop we are only use either macOS or Linux. Windows has lesser feat
   java version "1.8.0_251"
   Java(TM) SE Runtime Environment (build 1.8.0_251-b08)
   Java HotSpot(TM) 64-Bit Server VM GraalVM EE 20.1.0 (build 25.251-b08-jvmci-20.1-b02, mixed mode)
-```
+  ```
 
   Verify GraalVM JavaScript version
 
   ![user input](images/userinput.png)
-```sh
-js --version
-```
+  >```sh
+  >js --version
+  >```
 
   Should output:
 
   ```
-GraalVM JavaScript (GraalVM EE Native 20.1.0)
-```
+  GraalVM JavaScript (GraalVM EE Native 20.1.0)
+  ```
 
   ![user input](images/userinput.png)
-```sh
-$GRAALVM_HOME/bin/node --version:graalvm
-```
+  >```sh
+  >$GRAALVM_HOME/bin/node --version:graalvm
+  >```
 
   Should output:
 
@@ -195,15 +195,15 @@ $GRAALVM_HOME/bin/node --version:graalvm
   GraalVM Utility (gu) version
 
   ![user input](images/userinput.png)
-  ```sh
-gu --version
-```
+  >```sh
+  >gu --version
+  >```
 
   Should output:
 
   ```
-GraalVM Updater 20.1.0
-```
+  GraalVM Updater 20.1.0
+  ```
 
 * i) The final step of the setup is to install Native Image, LLVM toolchain, and R using GraalVM Utility ```gu```
 
@@ -212,17 +212,18 @@ GraalVM Updater 20.1.0
       Assuming your default download directory is ```~/Downloads/```, you can run the following commands:
 
     ![user input](images/userinput.png)
-    ```sh
-    gu install -L ~/Downloads/native-image-installable-svm-svmee-java8-darwin-amd64-20.1.0.jar
-    gu install -L ~/Downloads/llvm-toolchain-installable-java8-darwin-amd64-20.1.0.jar
-    sudo gu install R
-    ```
+    >```sh
+    >gu install -L ~/Downloads/native-image-installable-svm-svmee-java8-darwin-amd64-20.1.0.jar
+    >gu install -L ~/Downloads/llvm-toolchain-installable-java8-darwin-amd64-20.1.0.jar
+    >sudo gu install R
+    >```
+
     Test it with the following command:
 
     ![user input](images/userinput.png)
-    ```sh
-    gu list
-    ```
+    >```sh
+    >gu list
+    >```
     Should output:
 
     ```
@@ -241,30 +242,30 @@ GraalVM Updater 20.1.0
     **Oracle Linux** using ```yum``` package manager
 
     ![user input](images/userinput.png)
-    ```sh
-    sudo yum install libstdc++-static
-    ```
+    >```sh
+    >sudo yum install libstdc++-static
+    >```
 
     **Ubuntu Linux** using ```apt-get``` package manager
 
     ![user input](images/userinput.png)
-    ```sh
-    sudo apt-get install build-essential libz-dev zlib1g-dev
-    ```
+    >```sh
+    >sudo apt-get install build-essential libz-dev zlib1g-dev
+    >```
 
     **Other Linux** using ```rpm``` package manager
 
     ![user input](images/userinput.png)
-    ```sh
-    sudo dnf install gcc glibc-devel zlib-devel libstdc++-static
-    ```
+    >```sh
+    >sudo dnf install gcc glibc-devel zlib-devel libstdc++-static
+    >```
 
     **MacOS**
 
     ![user input](images/userinput.png)
-    ```sh
-    xcode-select --install
-    ```
+    >```sh
+    >xcode-select --install
+    >```
 
     Congratulation! You have successfully installed GraalVM Enterprise Edition along with its Native Image, LLVM toolchain, and R components.
 
