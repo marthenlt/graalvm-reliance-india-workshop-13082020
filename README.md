@@ -13,94 +13,159 @@ while you may have heard of it, there are almost certainly things that it can do
 that you don't know about yet. In this workshop we'll go through some of the
 diverse features of GraalVM and show you what they can do for you.
 
-In this workshop we will be using GraalVM Enterprise Edition 20.1.1 for JDK 8 which can be downloaded from [OTN - Oracle Technology Network](https://www.oracle.com/downloads/graalvm-downloads.html)
+In this workshop we will be using GraalVM Enterprise Edition 20.1.0 for JDK 8 which can be downloaded from [OTN - Oracle Technology Network](https://www.oracle.com/downloads/graalvm-downloads.html)
 
 ## 1. Setup GraalVM Enterprise Edition
 
-Below are the steps to setup GraalVM Enterprise Edition 20.1.1 for JDK 8.
+Below are the steps to setup GraalVM Enterprise Edition 20.1.0 for JDK 8.
 
 * a) In order to get started with GraalVM Enterprise Edition, you will need to download it from [OTN - Oracle Technology Network](https://www.oracle.com/downloads/graalvm-downloads.html), make sure to choose "GraalVM Enterprise Edition 20 Current Release" tab as seen from below picture.
 
-![Download Picture 1](images/download-page-01.png)
+  ![Download Picture 1](images/download-page-01.png)
 
-* b) Select Release Version 20.1.1, Java Version 8, and your OS (operating system) type.
+* b) Select Release Version 20.1.0, Java Version 8, and your OS (operating system) type.
 If you are using MacOS (like I do), you can choose macOS for the OS. Another supported OS is Windows and Linux.
 For this workshop we are only use either macOS or Linux. Windows has lesser features right now, therefore we don't use it now.
 
-![Download Picture 2](images/download-page-02.png)
+  ![Download Picture 2](images/download-page-02.png)
 
-* c) Once you selected the OS, you can download below required binaries
+* c) Once you selected the OS, you can download below required 3 binary files
   * Oracle GraalVM Enterprise Edition Core
   * Oracle GraalVM Enterprise Edition Native Image
   * GraalVM LLVM Toolchain Plugin
 
-![Download Picture 3](images/download-page-03.png)
+  ![Download Picture 3](images/download-page-05.png)
+  Optionally, you can also download Oracle GraalVM Enterprise Edition Python Language Plugin, Oracle GraalVM Enterprise Edition Ruby Language Plugin and Oracle GraalVM Enterprise Edition WebAssembly Language Plugin. But they are not required for this workshop.
 
-sa
-s
+   You need to login to OTN to be able to download the binaries. If you have an existing Oracle credential you can use it, but if not you can create one as seen from the following picture.
 
-![Download Picture 4](images/download-page-04.png)
+  ![Download Picture 4](images/download-page-04.png)
 
-sdsd
-sddd
+* d) Once the 3 binary files have been downloaded successfully, you can extract it out using below commands
 
+  * On MacOS
 
-In this exercise, we'll be using materials from the following article:
-https://medium.com/graalvm/graalvm-ten-things-12d9111f307d
+    ![user input](images/userinput.png)
+    >```sh
+    >tar -zxf graalvm-ee-java8-darwin-amd64-20.1.1.tar.gz
+    >```
 
-You may want to clone the code onto your lab VM to help you follow along:
+  * On Linux
 
-![user input](images/userinput.png)
->```sh
->git clone https://github.com/chrisseaton/graalvm-ten-things.git
->```
+     ![user input](images/userinput.png)
+     >```sh
+     >tar -zxf graalvm-ee-java8-linux-amd64-20.1.1.tar.gz
+     >```
 
-You have connected to the OCI Developer Cloud Image which contains the
-Enterprise Edition of GraalVM jaeger-component: all-in-one This gives us the Java and JavaScript
-languages.
+* e) It will a new directory named "graalvm-ee-java8-20.1.1". Move it to any path that you want for example for MacOS I used to put it under ```/Library/Java/JavaVirtualMachines/```, or on Linux you can put it under ```/opt/```. This is will become your GraalVM installation directory.
 
-To ensure that the Graal versions will be used by default when invoking `java`,
-`js`, or `node`, update your `$PATH` as follows:
+  * On MacOS
 
-![user input](images/userinput.png)
->```sh
->export PATH=/opt/graalvm/graalvm-ee-20.1.1/bin:$PATH
->```
+    ![user input](images/userinput.png)
+    >```sh
+    >sudo mv graalvm-ee-java8-20.1.1 /Library/Java/JavaVirtualMachines/.
+    >```
 
-You can verify that the Graal versions will be used with the following commands:
+    So, your GraalVM installation directory on MacOS is ```/Library/Java/JavaVirtualMachines/graalvm-ee-java8-20.1.1/Contents/Home```
 
-![user input](images/userinput.png)
->```sh
->java -version
->```
+  * On Linux
 
-Should output:
+     ![user input](images/userinput.png)
+     >```sh
+     >sudo mv graalvm-ee-java8-20.1.1 /opt/.
+     >```
 
-```
+     And then your GraalVM installation directory on Linux is ```/opt/graalvm-ee-java8-20.1.1```
+
+* f) Modify your terminal shell accordingly. Open your terminal and based on your shell type bash/zsh do the following.
+
+  * On MacOS
+
+    ![user input](images/userinput.png)
+
+    for zsh:
+    >```sh
+    > vi ~/.zshrc
+    >```
+
+    for bash:
+    >```sh
+    > vi ~/.bashrc
+    >```
+
+    and add the following to ```~/.zshrc``` or ```~/.bashrc``` files:
+
+    >```sh
+    >export GRAALVM_HOME=/Library/Java/JavaVirtualMachines/graalvm-ee-java8-20.1.1/Contents/Home
+    >export PATH=$PATH:$GRAALVM_HOME/bin
+    >```
+
+    Save it, and then source using the following command:
+
+    ![user input](images/userinput.png)
+
+    for zsh:
+    >```sh
+    > source ~/.zshrc
+    >```
+
+    for bash:
+    >```sh
+    > source ~/.bashrc
+    >```
+
+  * On Linux
+
+    The same steps like MacOS above, except the ```GRAALVM_HOME``` directory is slightly different
+
+    ![user input](images/userinput.png)
+    >```sh
+    >export GRAALVM_HOME=/opt/graalvm-ee-java8-20.1.1
+    >export PATH=$PATH:$GRAALVM_HOME/bin
+    >```
+
+    Save it, and source it (see the above MacOS step).
+
+* g) That's it. You have just installed GraalVM on your MacOS or Linux machine. Next 2 steps are verifying the GraalVM installation and then setup Native Image and LLVM toolchain.
+
+* h) Verifying GraalVM installation.
+
+  You can verify that the GraalVM versions will be used with the following commands:
+
+  ![user input](images/userinput.png)
+  >```sh
+  >java -version
+  >```
+
+  Should output:
+
+  ```
 java version "1.8.0_261"
 Java(TM) SE Runtime Environment (build 1.8.0_261-b33)
 Java HotSpot(TM) 64-Bit Server VM GraalVM EE 20.1.1 (build 25.261-b33-jvmci-20.1-b04, mixed mode)
 ```
 
-Should output:
+  Verify GraalVM JavaScript version
 
-![user input](images/userinput.png)
+  ![user input](images/userinput.png)
 ```sh
 js --version
 ```
 
-Should output:
+  Should output:
 
-```
+  ```
 GraalVM JavaScript (GraalVM EE Native 20.1.1)
 ```
 
-![user input](images/userinput.png)
+  ![user input](images/userinput.png)
 ```sh
-node --version:graalvm
+$GRAALVM_HOME/bin/node --version:graalvm
 ```
 
-```
+  Should output:
+
+  ```
 GraalVM EE Native Polyglot Engine Version 20.1.1
 Java Version 1.8.0_261
 Java VM Version GraalVM 20.1.1 Java 8 EE
@@ -120,7 +185,62 @@ GraalVM Home /Library/Java/JavaVirtualMachines/graalvm-ee-java8-20.1.1/Contents/
     Memory Tracer           version 0.2
 ```
 
-## 1. High-performance modern Java
+  GraalVM Utility (gu) version
+
+  ![user input](images/userinput.png)
+  ```sh
+gu --version
+```
+
+  Should output:
+
+  ```
+GraalVM Updater 20.1.1
+```
+
+
+* i) The final step of the setup is to Native Image and LLVM toolchain using GraalVM Utility ```gu```
+
+   * On MacOS
+
+      Assuming your default download directory is ```~/Downloads/```, you can run the following commands:
+
+    ![user input](images/userinput.png)
+    ```sh
+    gu install -L ~/Downloads/native-image-installable-svm-svmee-java8-darwin-amd64-20.1.1.jar
+    gu install -L ~/Downloads/llvm-toolchain-installable-java8-darwin-amd64-20.1.1.jar
+    ```
+    Test it with the following command:
+
+    ![user input](images/userinput.png)
+    ```sh
+    gu list
+    ```
+    Should output:
+
+    ```
+     ComponentId              Version             Component name      Origin
+     --------------------------------------------------------------------------------
+     graalvm                  20.1.1              GraalVM Core
+     llvm-toolchain           20.1.1              LLVM.org toolchain
+     native-image             20.1.1              Native Image
+    ```    
+
+    Congratulation! You have successfully installed GraalVM Enterprise Edition along with its Native Image and LLVM toolchain components.
+
+    Next we will be running some  
+
+## 2. High-performance modern Java
+
+In this exercise, we'll be using materials from the following article:
+https://medium.com/graalvm/graalvm-ten-things-12d9111f307d
+
+You may want to clone the code onto your lab VM to help you follow along:
+
+![user input](images/userinput.png)
+>```sh
+>git clone https://github.com/chrisseaton/graalvm-ten-things.git
+>```
 
 The *Graal* name in the GraalVM comes from the GraalVM compiler. GraalVM is
 [one compiler to rule them
