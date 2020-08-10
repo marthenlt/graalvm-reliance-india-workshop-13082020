@@ -1,17 +1,49 @@
+GraalVM workshop for Reliance group, India
+
 Table of Contents:
 
-* [Exercise 1: GraalVM](#exercise-1-graalvm)
+* [Exercise 1: GraalVM](#exercise-1-graalvm-enterprise)
 * [Exercise 2: Microservices](#exercise-2-microservices)
 * [Exercise 3: SpringBoot](#exercise-3-springboot)
 
-# Exercise 1: GraalVM
+# Exercise 1: GraalVM Enterprise
 
-There are a lot of different parts to [GraalVM](https://www.graalvm.org/), so
+There are a lot of different parts to GraalVM, so
 while you may have heard of it, there are almost certainly things that it can do
-that you don't know about yet. In this exercise we'll go through some of the
+that you don't know about yet. In this workshop we'll go through some of the
 diverse features of GraalVM and show you what they can do for you.
 
-## 0. Setup
+In this workshop we will be using GraalVM Enterprise Edition 20.1.1 for JDK 8 which can be downloaded from [OTN - Oracle Technology Network](https://www.oracle.com/downloads/graalvm-downloads.html)
+
+## 1. Setup GraalVM Enterprise Edition
+
+Below are the steps to setup GraalVM Enterprise Edition 20.1.1 for JDK 8.
+
+* a) In order to get started with GraalVM Enterprise Edition, you will need to download it from [OTN - Oracle Technology Network](https://www.oracle.com/downloads/graalvm-downloads.html), make sure to choose "GraalVM Enterprise Edition 20 Current Release" tab as seen from below picture.
+
+![Download Picture 1](images/download-page-01.png)
+
+* b) Select Release Version 20.1.1, Java Version 8, and your OS (operating system) type.
+If you are using MacOS (like I do), you can choose macOS for the OS. Another supported OS is Windows and Linux.
+For this workshop we are only use either macOS or Linux. Windows has lesser features right now, therefore we don't use it now.
+
+![Download Picture 2](images/download-page-02.png)
+
+* c) Once you selected the OS, you can download below required binaries
+  * Oracle GraalVM Enterprise Edition Core
+  * Oracle GraalVM Enterprise Edition Native Image
+  * GraalVM LLVM Toolchain Plugin
+
+![Download Picture 3](images/download-page-03.png)
+
+sa
+s
+
+![Download Picture 4](images/download-page-04.png)
+
+sdsd
+sddd
+
 
 In this exercise, we'll be using materials from the following article:
 https://medium.com/graalvm/graalvm-ten-things-12d9111f307d
