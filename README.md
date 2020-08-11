@@ -1098,7 +1098,7 @@ Finally, kill the docker container:
 
 ![user input](images/userinput.png)
 >```sh
-> docker kill micronaut
+> sudo docker kill micronaut
 >```
 
 ![user input](images/micronaut-startup.png)
