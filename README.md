@@ -13,6 +13,7 @@ In order to get yourself ready for this workshop, you need to prepare your machi
 
   * Supported OS is MacOS and Linux. Windows is supported by GraalVM but for this workshop we do not use Windows.
   * Install the following tools : git, curl, unzip, docker and your favourite IDE.
+  * Internet connection. You will need to access some online Github repositories during workshop exercises.
 
 # Exercise 2: GraalVM Enterprise
 
