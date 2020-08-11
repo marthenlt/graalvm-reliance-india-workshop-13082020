@@ -554,7 +554,7 @@ Execute below command to create a TopTen's native binary executable:
 
 ![user input](images/userinput.png)
 >```sh
-> native-image --no-server TopTen
+> native-image --no-server --no-fallback TopTen
 >```
 
 The output is something like the following:
@@ -645,6 +645,249 @@ suscipit = 2
 	Maximum resident set size (kbytes): 6192
 ...
 ```
+
+So as you can see from the above that GraalVM AOT via Native Image requires only 6,1 MB memory,
+whereas GraalVM JIT requires 76.1 MB memory. Here we are looking at 11x smaller memory footprint requires by AOT'ed application.
+
+Application start-up is also worth to mention, see the "Elapsed (wall clock)" from the 2 examples.
+GraalVM JIT elapsed (wall clock) time is 26 ms (0:00.26)
+GraalVM AOT elapsed (wall clock) time is 0 ms (0:00.00)
+It was too fast until time utility count it as 0 ms.
+
+Now let's see how to make AOT application throughput performance (TPS - transaction per second) even more faster.
+
+In the next part of the AOT, we will create a **PGO (Profile Guided Optimisation)** file to make the native binary executable application's throughput faster.
+
+**:: Graal AOT - _PGO (Profile Guided Optimisation_::**
+
+`PGO` is a way to _teach_ GraalVM AOT compiler to further optimize the throughput of the resulted native binary executable application.
+
+Before we create a PGO file, we can always take current throughput benchmark using below command:
+
+![user input](images/userinput.png)
+>```sh
+> /usr/bin/time -l ./topten large.txt  # -v for linux
+>```
+
+the output is something like the following:
+
+```
+sed = 502500
+ut = 392500
+in = 377500
+et = 352500
+id = 317500
+eu = 317500
+eget = 302500
+vel = 300000
+a = 287500
+sit = 282500
+       33.34 real        32.65 user         0.12 sys
+ 275300352  maximum resident set size
+         0  average shared memory size
+         0  average unshared data size
+         0  average unshared stack size
+     67333  page reclaims
+         0  page faults
+         0  swaps
+         0  block input operations
+         0  block output operations
+         0  messages sent
+         0  messages received
+         0  signals received
+         0  voluntary context switches
+      5051  involuntary context switches
+```
+
+The result is 33.34 seconds, and that'd be the throughput result before we optimise the topten binary executable application using PGO.
+
+Next we will create a PGO file and create a new topten binary executable application.
+
+To create a PGO ```topten.iprof``` file, we can execute below command:
+
+![user input](images/userinput.png)
+>```sh
+> java -Dgraal.PGOInstrument=topten.iprof TopTen large.txt
+>```
+
+You can do ```more topten.iprof``` to see what is the inside of it.
+
+The output is something like this:
+
+```
+{
+  "version": "0.1.0",
+  "types": [
+    { "id": 0, "typeName": "void" },
+    { "id": 1, "typeName": "java.lang.Object" },
+    { "id": 2, "typeName": "int" },
+    { "id": 3, "typeName": "char" },
+    { "id": 4, "typeName": "java.lang.String" },
+    { "id": 5, "typeName": "boolean" },
+    { "id": 6, "typeName": "jdk.internal.org.objectweb.asm.ByteVector" },
+    { "id": 7, "typeName": "java.util.regex.Matcher" },
+    { "id": 8, "typeName": "java.util.regex.Pattern" },
+    { "id": 9, "typeName": "java.util.regex.Pattern$CharProperty" },
+    { "id": 10, "typeName": "java.util.Locale" },
+    { "id": 11, "typeName": "java.util.regex.Pattern$Start" },
+    { "id": 12, "typeName": "java.util.regex.Pattern$Node" },
+    { "id": 13, "typeName": "java.lang.CharSequence" },
+    { "id": 14, "typeName": "java.util.regex.Pattern$Bound" },
+    { "id": 15, "typeName": "java.util.regex.Pattern$7" },
+    { "id": 16, "typeName": "java.lang.AbstractStringBuilder" },
+    { "id": 17, "typeName": "long" },
+    { "id": 18, "typeName": "java.lang.Long" },
+    { "id": 19, "typeName": "TopTen$$Lambda$3b10c7a2f7c6d338f440772c95ba6f0817542440" },
+    { "id": 20, "typeName": "java.util.stream.ReferencePipeline$2$1" },
+    { "id": 21, "typeName": "TopTen$$Lambda$87848ac86c4290ac11720a83997f04131f536f8d" },
+    { "id": 22, "typeName": "java.util.stream.ReferencePipeline$3$1" },
+    { "id": 23, "typeName": "java.util.function.Function" },
+    { "id": 24, "typeName": "java.util.HashMap$Node" },
+    { "id": 25, "typeName": "java.util.HashMap" },
+    { "id": 26, "typeName": "java.lang.StringBuilder" },
+    { "id": 27, "typeName": "java.lang.CharacterData" },
+    { "id": 28, "typeName": "java.lang.CharacterDataLatin1" },
+    { "id": 29, "typeName": "[C" },
+    { "id": 30, "typeName": "java.lang.StringBuffer" },
+    { "id": 31, "typeName": "TopTen$$Lambda$0b0d64db00d822fc7a5961af823188880dabad02" },
+    { "id": 32, "typeName": "java.util.stream.Collectors$$Lambda$1f320588d289d5199520cf37e560d656e2059344" },
+    { "id": 33, "typeName": "java.util.stream.ReduceOps$3ReducingSink" },
+    { "id": 34, "typeName": "java.util.stream.Collectors$$Lambda$340637087fa4286e0452b77c431b9ea00388bbed" },
+    { "id": 35, "typeName": "java.util.function.Supplier" },
+    { "id": 36, "typeName": "java.util.function.BiConsumer" },
+    { "id": 37, "typeName": "java.util.Map" },
+    { "id": 38, "typeName": "java.util.stream.Collectors" },
+    { "id": 39, "typeName": "java.util.function.Function$$Lambda$dd209b89bc72e7ebb8e9ff32c52274f51a296df5" },
+    { "id": 40, "typeName": "java.util.stream.Collectors$$Lambda$e2cd1af36e54aee42d3805be70608ebe307e22cb" },
+    { "id": 41, "typeName": "java.io.BufferedReader" },
+    { "id": 42, "typeName": "java.util.stream.Collectors$$Lambda$87b1d011281ce3cc5029befeec60b7445dde247f" },
+    { "id": 43, "typeName": "java.util.stream.Collectors$$Lambda$2dce47c81eab063adef0b3713ba4481dce4b99f1" },
+    { "id": 44, "typeName": "java.lang.Character" },
+    { "id": 45, "typeName": "java.util.regex.Pattern$1" },
+    { "id": 46, "typeName": "[Ljava.lang.Object;" },
+    { "id": 47, "typeName": "java.util.AbstractCollection" },
+    { "id": 48, "typeName": "java.util.ArrayList$SubList" },
+    { "id": 49, "typeName": "java.util.ArrayList$SubList$1" },
+    { "id": 50, "typeName": "java.nio.ByteBuffer" },
+    { "id": 51, "typeName": "java.nio.CharBuffer" },
+    { "id": 52, "typeName": "java.nio.charset.CoderResult" },
+    { "id": 53, "typeName": "sun.nio.cs.UTF_8$Decoder" },
+    { "id": 54, "typeName": "java.util.function.Consumer" },
+    { "id": 55, "typeName": "java.util.Spliterators$ArraySpliterator" },
+    { "id": 56, "typeName": "[Ljava.lang.String;" },
+    { "id": 57, "typeName": "java.util.regex.Pattern$Dot" },
+    { "id": 58, "typeName": "java.util.regex.Pattern$LastNode" },
+    { "id": 59, "typeName": "java.util.regex.Pattern$CharProperty$1" },
+    { "id": 60, "typeName": "java.util.ArrayList" },
+    { "id": 61, "typeName": "java.lang.Class" },
+    { "id": 62, "typeName": "java.util.Arrays" },
+    { "id": 63, "typeName": "java.lang.reflect.Array" },
+    { "id": 64, "typeName": "[B" },
+    { "id": 65, "typeName": "sun.nio.cs.UTF_8$Encoder" },
+    { "id": 66, "typeName": "java.lang.Math" },
+    { "id": 67, "typeName": "java.util.regex.Pattern$TreeInfo" },
+    { "id": 68, "typeName": "java.util.regex.Pattern$Curly" },
+    { "id": 69, "typeName": "java.util.regex.Pattern$Single" },
+    { "id": 70, "typeName": "java.util.regex.Pattern$Slice" },
+    { "id": 71, "typeName": "java.util.regex.Pattern$BitClass" },
+    { "id": 72, "typeName": "java.util.Spliterator" },
+    { "id": 73, "typeName": "java.util.stream.StreamOpFlag" },
+    { "id": 74, "typeName": "java.util.stream.AbstractPipeline" },
+    { "id": 75, "typeName": "java.nio.DirectLongBufferU" },
+    { "id": 76, "typeName": "[Ljava.util.concurrent.ConcurrentHashMap$Node;" },
+    { "id": 77, "typeName": "java.util.concurrent.ConcurrentHashMap$Node" },
+    { "id": 78, "typeName": "java.util.concurrent.ConcurrentHashMap" },
+    { "id": 79, "typeName": "java.lang.SecurityManager" },
+    { "id": 80, "typeName": "java.lang.System" },
+    { "id": 81, "typeName": "java.util.AbstractList" },
+    { "id": 82, "typeName": "java.util.stream.ReferencePipeline$Head" },
+    { "id": 83, "typeName": "java.util.Spliterators" },
+    { "id": 84, "typeName": "java.io.BufferedReader$1" },
+    { "id": 85, "typeName": "java.util.stream.ReferencePipeline$7$1" },
+    { "id": 86, "typeName": "TopTen$$Lambda$06682aee951e0e3ae2baa6a58ccece9786705f33" },
+    { "id": 87, "typeName": "java.nio.Buffer" },
+    { "id": 88, "typeName": "sun.nio.ch.Util" },
+    { "id": 89, "typeName": "java.util.Iterator" },
+    { "id": 90, "typeName": "java.nio.DirectByteBuffer" },
+    { "id": 91, "typeName": "java.lang.ThreadLocal" },
+    { "id": 92, "typeName": "sun.nio.cs.UTF_8" },
+    { "id": 93, "typeName": "java.nio.HeapByteBuffer" },
+    { "id": 94, "typeName": "java.nio.HeapCharBuffer" },
+    { "id": 95, "typeName": "java.nio.charset.CharsetDecoder" },
+    { "id": 96, "typeName": "sun.nio.cs.StreamDecoder" },
+    { "id": 97, "typeName": "sun.nio.ch.FileChannelImpl" },
+    { "id": 98, "typeName": "sun.nio.ch.ChannelInputStream" }
+  ],
+  "methods": [
+    { "id": 0, "methodName": "<init>", "signature": [ 1, 0 ] },
+    { "id": 1, "methodName": "charAt", "signature": [ 4, 3, 2 ] },
+    { "id": 2, "methodName": "length", "signature": [ 4, 2 ] },
+    { "id": 3, "methodName": "equals", "signature": [ 4, 5, 1 ] },
+    { "id": 4, "methodName": "indexOf", "signature": [ 4, 2, 2, 2 ] },
+    { "id": 5, "methodName": "lastIndexOf", "signature": [ 4, 2, 2, 2 ] },
+    { "id": 6, "methodName": "hashCode", "signature": [ 4, 2 ] },
+    { "id": 7, "methodName": "putUTF8", "signature": [ 6, 6, 4 ] },
+    { "id": 8, "methodName": "reset", "signature": [ 7, 7 ] },
+    { "id": 9, "methodName": "getTextLength", "signature": [ 7, 2 ] },
+    { "id": 10, "methodName": "compile", "signature": [ 8, 0 ] },
+    { "id": 11, "methodName": "clazz", "signature": [ 8, 9, 5 ] },
+    { "id": 12, "methodName": "toLowerCase", "signature": [ 4, 4, 10 ] },
+    { "id": 13, "methodName": "search", "signature": [ 7, 5, 2 ] },
+    { "id": 14, "methodName": "sequence", "signature": [ 8, 12, 12 ] },
+    { "id": 15, "methodName": "find", "signature": [ 7, 5 ] },
+    { "id": 16, "methodName": "match", "signature": [ 11, 5, 7, 2, 13 ] },
+    { "id": 17, "methodName": "replaceAll", "signature": [ 7, 4, 4 ] },
+    { "id": 18, "methodName": "substring", "signature": [ 4, 4, 2, 2 ] },
+    { "id": 19, "methodName": "append", "signature": [ 16, 16, 13, 2, 2 ] },
+    { "id": 20, "methodName": "longValue", "signature": [ 18, 17 ] },
+...
+```
+
+Next we can then re-create the topten binary executable with our PGO ```topten.iprof```, type the following command:
+
+![user input](images/userinput.png)
+>```sh
+> native-image --no-server --no-fallback --pgo=topten.iprof TopTen
+>```
+
+Then we execute the same benchmarking again..
+
+![user input](images/userinput.png)
+>```sh
+> /usr/bin/time -l ./topten large.txt  # -l for linux
+>```
+
+The result is:
+
+```
+sed = 502500
+ut = 392500
+in = 377500
+et = 352500
+id = 317500
+eu = 317500
+eget = 302500
+vel = 300000
+a = 287500
+sit = 282500
+       28.20 real        27.50 user         0.09 sys
+ 274989056  maximum resident set size
+         0  average shared memory size
+         0  average unshared data size
+         0  average unshared stack size
+     67249  page reclaims
+         0  page faults
+         0  swaps
+         0  block input operations
+         0  block output operations
+         0  messages sent
+         0  messages received
+         0  signals received
+         0  voluntary context switches
+       389  involuntary context switches
+```
+
+The new benchmark (as a result of PGO) shows a better throughput of 28.20 seconds compare to 33.34 seconds which is showing more than 15% better throughput.
 
 The `native-image` tool has some
 [restrictions](https://github.com/oracle/graal/blob/master/substratevm/LIMITATIONS.md)
