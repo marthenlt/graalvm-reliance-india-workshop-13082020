@@ -12,7 +12,7 @@ Table of Contents:
 In order to get yourself ready for this workshop, you need to prepare your machine/laptop to have the following requirements.
 
   * Supported OS is MacOS and Linux. Windows is supported by GraalVM but for this workshop we do not use Windows.
-  * Install the following tools : git, curl, unzip, docker and your favourite IDE.
+  * Install the following tools : git, curl, unzip, docker, maven and your favourite IDE.
   * Internet connection. You will need to access some online Github repositories during workshop exercises.
 
 # Exercise 2: GraalVM Enterprise
@@ -221,7 +221,7 @@ For this workshop we are only use either macOS or Linux. Windows has lesser feat
     >```sh
     >gu install -L ~/Downloads/native-image-installable-svm-svmee-java8-darwin-amd64-20.1.0.jar
     >gu install -L ~/Downloads/llvm-toolchain-installable-java8-darwin-amd64-20.1.0.jar
-    >sudo gu install R
+    >gu install R
     >```
 
     Test it with the following command:
@@ -238,9 +238,43 @@ For this workshop we are only use either macOS or Linux. Windows has lesser feat
     --------------------------------------------------------------------------------
     graalvm                  20.1.0              GraalVM Core
     R                        20.1.0              FastR               github.com
-    llvm-toolchain           20.1.0              LLVM.org toolchain  github.com
+    llvm-toolchain           20.1.0              LLVM.org toolchain  
     native-image             20.1.0              Native Image
     ```    
+
+    **Configure FastR**
+
+    After installing FastR component using ```gu install R``` which will download R binary file from github, you are encourage to configure it.
+    Below is how you do it on MacOS and Linux:
+
+    On Linux
+
+    ![user input](images/userinput.png)
+    >```sh
+    >/opt/graalvm-ee-java8-20.1.0/jre/languages/R/bin/configure_fastr
+    >```
+
+    On MacOS
+
+    ![user input](images/userinput.png)
+    >```sh
+    >/Library/Java/JavaVirtualMachines/graalvm-ee-java8-20.1.0/Contents/home/jre/languages/R/bin/configure_fastr
+    >```
+
+    The output is something like the following:
+
+    ```
+    The basic configuration of FastR was successfull.
+
+    Note: if you intend to install R packages you may need additional dependencies.
+    The most common dependency is GFortran, which must be of version 8.3.0 or later.
+    See https://gcc.gnu.org/wiki/GFortranBinaries.
+    If the 'gfortran' binary is not on the system path, you need to configure the full path to it in /Library/Java/JavaVirtualMachines/graalvm-ee-java8-20.1.0/Contents/home/jre/languages/R/etc/Makeconf (variable FC)
+
+    Default personal library directory (/Users/mluther/R/x86_64-apple-darwin-library/fastr-20.1.0-3.6) does exist. Do you wish to create it? (Yy/Nn) y
+    Creating personal library directory: /Users/mluther/R/x86_64-apple-darwin-library/fastr-20.1.0-3.6
+    DONE
+    ```
 
     **Install Native Image required C and zlib libraries as seen [here](https://docs.oracle.com/en/graalvm/enterprise/19/guide/reference/native-image/native-image.html#prerequisites)**
 
@@ -658,7 +692,7 @@ Now let's see how to make AOT application throughput performance (TPS - transact
 
 In the next part of the AOT, we will create a **PGO (Profile Guided Optimisation)** file to make the native binary executable application's throughput faster.
 
-**:: Graal AOT - _PGO (Profile Guided Optimisation_::**
+**:: Graal AOT - _PGO (Profile Guided Optimisation)_::**
 
 `PGO` is a way to _teach_ GraalVM AOT compiler to further optimize the throughput of the resulted native binary executable application.
 
@@ -1108,14 +1142,40 @@ Finally, kill the docker container:
 
 # Exercise 4: SpringBoot
 
-This lab will focus on SpringBoot
+This lab will focus on Spring Boot
 
 ## 1. First clone the sample SpringBoot Application
+
+Clone below Spring Boot sample applications that uses GraalVM Native Image. Do note that this is developed by Spring framework team and still in experimental phase.
+
+![user input](images/userinput.png)
 >```sh
 >git clone https://github.com/spring-projects-experimental/spring-graal-native.git
 >```
 
 ## 2. Compile and Run the application using GraalVM Native Image
+
+In order to proceed with compiling and building this application, you need to have Apache Maven version 3.x installed in your machine.
+If you type:
+
+![user input](images/userinput.png)
+>```sh
+>mvn --version
+>```
+
+In my machine it shows below ouput:
+
+```
+Apache Maven 3.6.3 (cecedd343002696d0abb50b32b541b8a6ba2883f)
+Maven home: /Users/mluther/custom-libs/apache-maven-3.6.3
+Java version: 1.8.0_251, vendor: Oracle Corporation, runtime: /Library/Java/JavaVirtualMachines/graalvm-ee-java8-20.1.0/Contents/Home/jre
+Default locale: en_SG, platform encoding: UTF-8
+OS name: "mac os x", version: "10.15.6", arch: "x86_64", family: "mac"
+```
+
+Once Apache Maven is already installed, you can proceed with the following commands:
+
+![user input](images/userinput.png)
 >```sh
 >cd spring-graal-native
 >./build.sh
@@ -1124,6 +1184,8 @@ This lab will focus on SpringBoot
 >cd target
 >./commandlinerunner
 >```
+
+Do take note on the startup time between traditional Spring far-JAR vs GraalVM Native Image. 
 
 ### Conclusions
 
