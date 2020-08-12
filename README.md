@@ -718,7 +718,7 @@ Before we create a PGO file, we can always take current throughput benchmark usi
 
 ![user input](images/userinput.png)
 >```sh
-> /usr/bin/time -l ./topten large.txt  # -v for linux
+> /usr/bin/time -v ./topten large.txt  # -l on MacOS
 >```
 
 the output is something like the following:
@@ -906,7 +906,7 @@ Then we execute the same benchmarking again..
 
 ![user input](images/userinput.png)
 >```sh
-> /usr/bin/time -l ./topten large.txt  # -l for linux
+> /usr/bin/time -v ./topten large.txt  # -l on MacOS
 >```
 
 The result is:
