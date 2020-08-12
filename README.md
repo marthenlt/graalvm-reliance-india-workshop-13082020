@@ -14,6 +14,8 @@ In order to get yourself ready for this workshop, you need to prepare your machi
   * Supported OS is MacOS and Linux. Windows is supported by GraalVM but for this workshop we do not use Windows. This hands-on labs exercise have been tested with Oracle Linux 8.2, Ubuntu 20.04, Fedora 32 (with minor tweak due to CGroup v2 issue - see the workaround at the later part of this hands-on labs) and MacOS 10.15.6.
   * Install the following tools : git, curl, unzip, docker, maven and your favourite IDE.
   * Internet connection. You will need to access some online Github repositories during workshop exercises.
+  * Uninstall any JDK/OpenJDK that comes with the OS. Example Fedora 32 comes with OpenJDK 8.
+    * On Fedora 32 execute ```sudo rpm -qa | grep java``` or ```sudo rpm -qa | grep jdk```, the output is something like (could be different from your machine) ```java-1.8.0-openjdk.x86_64``` and    uninstall using ```sudo yum remove java-1.8.0-openjdk.x86_64```.
 
 # Exercise 2: GraalVM Enterprise
 
@@ -302,7 +304,7 @@ For this workshop we are only use either macOS or Linux. Windows has lesser feat
 
     ![user input](images/userinput.png)
     >```sh
-    >sudo yum install libstdc++-static
+    >sudo yum install gcc glibc-devel zlib-devel
     >```
 
     **Ubuntu Linux** using ```apt-get``` package manager
@@ -1114,7 +1116,7 @@ Then build a docker image from it, but make sure docker daemon service is alread
 > sudo ./docker-build.sh
 >```
 >>
->>If you are using Fedora 31 and above, you most likely failed executing the above ```docker-build.sh``` script. The reason being Fedora 31 and above by default is using CGroup v2 which is not compatible with Docker at time I wrote this hands-on labs (11-12 Aug 2020).
+>>If you are using Fedora 31 and above, you most likely failed executing the above ```docker-build.sh``` script. The reason being Fedora 31 and above by default is using CGroup v2 which is not compatible with Docker at the time I wrote this hands-on labs (11-12 Aug 2020).
 >>On my Fedora 32 the script failed with message _**"OCI runtime create failed: this version of runc doesn't work on cgroups v2: unknown"**_
 Here's the error output:
 >>
@@ -1139,7 +1141,7 @@ Here's the error output:
 >> sudo reboot now  #reboot your machine
 >>```
 >>
->> Once your Fedora machine reboot, repeat executing ```docker-build.sh``` script :
+>> Once your Fedora machine rebooted, try to execute ```docker-build.sh``` script again :
 >>
 >>![user input](images/userinput.png)
 >>```sh
