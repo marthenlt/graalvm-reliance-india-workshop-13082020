@@ -11,7 +11,7 @@ Table of Contents:
 
 In order to get yourself ready for this workshop, you need to prepare your machine/laptop to have the following requirements.
 
-  * Supported OS is MacOS and Linux. Windows is supported by GraalVM but for this workshop we do not use Windows. This hands-on labs exercise have been tested with Oracle Linux 8.2, Ubuntu 20.04, Fedora 32 (with minor tweak due to CGroup v2 issue - see the workaround at the later part of this hands-on labs) and MacOS 10.15.6.
+  * Supported OS is MacOS and Linux. Windows is supported by GraalVM but for this workshop we do not use Windows. This hands-on labs exercise have been tested with Ubuntu 20.04, Fedora 32 (with minor tweak due to CGroup v2 issue - see the workaround at the later part of this hands-on labs) and MacOS 10.15.6.
   * Install the following tools : git, curl, unzip, docker, maven and your favourite IDE.
   * Internet connection. You will need to access some online Github repositories during workshop exercises.
   * Uninstall any JDK/OpenJDK that comes with the OS. Example Fedora 32 comes with OpenJDK 8.
