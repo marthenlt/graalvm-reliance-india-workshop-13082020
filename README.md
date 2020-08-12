@@ -11,7 +11,7 @@ Table of Contents:
 
 In order to get yourself ready for this workshop, you need to prepare your machine/laptop to have the following requirements.
 
-  * Supported OS is MacOS and Linux. Windows is supported by GraalVM but for this workshop we do not use Windows.
+  * Supported OS is MacOS and Linux. Windows is supported by GraalVM but for this workshop we do not use Windows. This hands-on labs exercise have been tested with Oracle Linux 8.2, Ubuntu 20.04, Fedora 32 (with minor tweak due to CGroup v2 issue - see the workaround at the later part of this hands-on labs) and MacOS 10.15.6.
   * Install the following tools : git, curl, unzip, docker, maven and your favourite IDE.
   * Internet connection. You will need to access some online Github repositories during workshop exercises.
 
@@ -1113,6 +1113,40 @@ Then build a docker image from it, but make sure docker daemon service is alread
 >```sh
 > sudo ./docker-build.sh
 >```
+>>
+>>If you are using Fedora 31 and above, you most likely failed executing the above ```docker-build.sh``` script. The reason being Fedora 31 and above by default is using CGroup v2 which is not compatible with Docker at time I wrote this hands-on labs (11-12 Aug 2020).
+>>On my Fedora 32 the script failed with message _**"OCI runtime create failed: this version of runc doesn't work on cgroups v2: unknown"**_
+Here's the error output:
+>>
+>>```
+>>[mluther@localhost complete]$ sudo ./docker-build.sh
+>>Sending build context to Docker daemon  65.13MB
+>>Step 1/10 : FROM oracle/graalvm-ce:20.1.0-java8 as graalvm
+>>---> fa8819f7526a
+>>Step 2/10 : RUN gu install native-image
+>>---> Running in 97c5d3a66402
+>>OCI runtime create failed: this version of runc doesn't work on cgroups v2: unknown
+>>```
+>>
+>>The workaround can be find [here](https://www.linuxuprising.com/2019/11/how-to-install-and-use-docker-on-fedora.html)
+>>
+>> On your Fedora run the following commands:
+>>
+>>![user input](images/userinput.png)
+>>```sh
+>> sudo dnf install grubby
+>> sudo grubby --update-kernel=ALL --args="systemd.unified_cgroup_hierarchy=0"
+>> sudo reboot now  #reboot your machine
+>>```
+>>
+>> Once your Fedora machine reboot, repeat executing ```docker-build.sh``` script :
+>>
+>>![user input](images/userinput.png)
+>>```sh
+>> sudo ./docker-build.sh
+>>```
+>>
+>> You should be able to build docker image now.
 
 The previous command will create the image micronaut-graal-app:latest. To execute it:
 
