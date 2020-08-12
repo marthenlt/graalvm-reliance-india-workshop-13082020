@@ -263,6 +263,24 @@ For this workshop we are only use either macOS or Linux. Windows has lesser feat
 
     The output is something like the following:
 
+    On Linux
+
+    ```
+    The basic configuration of FastR was successfull.
+
+    Note: if you intend to install R packages you may need additional dependencies.
+    The following packages should cover depenedencies of the most commonly used R packages:
+    On Debian based systems: apt-get install build-essential gfortran libxml2 libc++-dev
+    On Oracle Linux: yum groupinstall 'Development Tools' && yum install gcc-gfortran
+
+    Default personal library directory (/home/mluther/R/x86_64-pc-linux-gnu-library/fastr-20.1.0-3.6) does exist. Do you wish to create it? (Yy/Nn) y
+    Creating personal library directory: /home/mluther/R/x86_64-pc-linux-gnu-library/fastr-20.1.0-3.6
+    DONE
+
+    ```
+
+    On MacOS
+
     ```
     The basic configuration of FastR was successfull.
 
@@ -1185,7 +1203,7 @@ Once Apache Maven is already installed, you can proceed with the following comma
 >./commandlinerunner
 >```
 
-Do take note on the startup time between traditional Spring far-JAR vs GraalVM Native Image. 
+Do take note on the startup time between traditional Spring far-JAR vs GraalVM Native Image.
 
 ### Conclusions
 
