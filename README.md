@@ -4,10 +4,17 @@ Table of Contents:
 
 * [Exercise 1: Requirements](#exercise-1-requirements)
 * [Exercise 2: GraalVM Enterprise](#exercise-2-graalvm-enterprise)
-   * [Exercise 2.1: Setup GraalVM Enterprise Edition](#exercise-2.1-setup-graalvm-enterprise-edition)
+   * [Exercise 2.1: Setup GraalVM Enterprise Edition](#exercise-21-setup-graalvm-enterprise-edition)
    * [Exercise 2.2: High-performance modern JIT compiler for Java](#2.2-high-performance-modern-jit-compiler-for-java)
+   * [Exercise 2.3: Ahead-of-Time (AOT) Compiler for Java Bytecode](#2.2-high-performance-modern-jit-compiler-for-java)
+   * [Exercise 2.4: Polyglot - Combine JavaScript, Java, and R](#2.2-high-performance-modern-jit-compiler-for-java)
 * [Exercise 3: Microservices](#exercise-3-microservices)
+   * [Exercise 3.1: Creating native image inside Docker](#2.2-high-performance-modern-jit-compiler-for-java)
+   * [Exercise 3.2: Sending a request to the application](#2.2-high-performance-modern-jit-compiler-for-java)
 * [Exercise 4: SpringBoot](#exercise-4-springboot)
+   * [Exercise 4.1: Clone the sample SpringBoot Application](#2.2-high-performance-modern-jit-compiler-for-java)
+   * [Exercise 4.2: Compile and run the application using GraalVM Native Image](#2.2-high-performance-modern-jit-compiler-for-java)
+
 
 # Exercise 1: Requirements
 
@@ -334,7 +341,7 @@ For this workshop we are only use either macOS or Linux. Windows has lesser feat
 
     Next, we will be running some application on GraalVM Enterprise.
 
-## 2.2 High-performance modern JIT compiler for Java
+## Exercise 2.2: High-performance modern JIT compiler for Java
 
 GraalVM in general can be ran in 2 different modes, first as a pure _**JIT compiler**_, and the other as _**AOT (Ahead-of-Time) compiler**_.
 
@@ -551,7 +558,7 @@ This is the first way you can use GraalVM - simply as a drop-in better JIT
 compiler for your existing Java applications.
 
 
-## 2. Ahead-of-Time (AOT) Compiler for Java Bytecode
+## Exercise 2.3: Ahead-of-Time (AOT) Compiler for Java Bytecode
 
 We have learned from previous exercise that GraalVM Enterprise can boost Java program performance without changing any code.
 
@@ -958,7 +965,7 @@ you from configuration issues such as finding the right jar files at runtime,
 and allows you to have smaller Docker images.
 
 
-## 3. Polyglot: Combine JavaScript, Java, and R
+## Exercise 2.4: Polyglot - Combine JavaScript, Java, and R
 
 GraalVM includes implementations of JavaScript, Ruby, R and Python on JVM. These are written using a new language implementation framework called
 _**Truffle**_ that makes it possible to implement language interpreters that are
@@ -1100,7 +1107,7 @@ Change directory to the `complete` subdirectory within the cloned repo:
 > cd micronaut-creating-first-graal-app/complete
 >```
 
-## 1. Creating native image inside Docker
+## Exercise 3.1: Creating native image inside Docker
 
 With this approach you only need to build the fatjar and then use Docker to build the native image.
 
@@ -1168,7 +1175,7 @@ Execute the native image:
 We can see that the application starts in only 12ms in this example (actual time
 will vary).
 
-## 2. SetupSending a request
+## Exercise 3.2: Sending a request to the application
 
 From another terminal, you can run a few cURL requests to test the application:
 
@@ -1200,7 +1207,7 @@ Finally, kill the docker container:
 
 This lab will focus on Spring Boot
 
-## 1. First clone the sample SpringBoot Application
+## Exercise 4.1: Clone the sample SpringBoot Application
 
 Clone below Spring Boot sample applications that uses GraalVM Native Image. Do note that this is developed by Spring framework team and still in experimental phase.
 
@@ -1209,7 +1216,7 @@ Clone below Spring Boot sample applications that uses GraalVM Native Image. Do n
 >git clone https://github.com/spring-projects-experimental/spring-graal-native.git
 >```
 
-## 2. Compile and Run the application using GraalVM Native Image
+## Exercise 4.2: Compile and run the application using GraalVM Native Image
 
 In order to proceed with compiling and building this application, you need to have Apache Maven version 3.x installed in your machine.
 If you type:
@@ -1243,6 +1250,6 @@ Once Apache Maven is already installed, you can proceed with the following comma
 
 Do take note on the startup time between traditional Spring far-JAR vs GraalVM Native Image.
 
-### Conclusions
+# Conclusions
 
 You have seen GraalVM in action, Microservices with GraalVM and also how a SpringBoot application works with GraalVM
