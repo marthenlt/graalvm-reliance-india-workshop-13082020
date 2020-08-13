@@ -4,6 +4,8 @@ Table of Contents:
 
 * [Exercise 1: Requirements](#exercise-1-requirements)
 * [Exercise 2: GraalVM Enterprise](#exercise-2-graalvm-enterprise)
+   * [Exercise 2.1: Setup GraalVM Enterprise Edition](#2.1-setup-graalvm-enterprise-edition)
+   * [Exercise 2.2: High-performance modern JIT compiler for Java](#2.2-high-performance-modern-jit-compiler-for-java)
 * [Exercise 3: Microservices](#exercise-3-microservices)
 * [Exercise 4: SpringBoot](#exercise-4-springboot)
 
@@ -12,7 +14,7 @@ Table of Contents:
 In order to get yourself ready for this workshop, you need to prepare your machine/laptop to have the following requirements.
 
   * Supported OS is MacOS and Linux. Windows is supported by GraalVM but for this workshop we do not use Windows. This hands-on labs exercise have been tested with Ubuntu 20.04, Fedora 32 (with minor tweak due to CGroup v2 issue - see the workaround at the later part of this hands-on labs) and MacOS 10.15.6.
-  * Install the following tools : git, curl, unzip, docker, maven and your favourite IDE.
+  * Install the following tools : `git`, `curl`, `unzip`, `docker`, `maven` and `your favourite IDE`.
   * Internet connection. You will need to access some online Github repositories during workshop exercises.
   * Uninstall any JDK/OpenJDK that comes with the OS. Example Fedora 32 comes with OpenJDK 8.
     * On Fedora 32 execute ```sudo rpm -qa | grep java``` or ```sudo rpm -qa | grep jdk```, the output is something like (could be different from your machine) ```java-1.8.0-openjdk.x86_64``` and    uninstall using ```sudo yum remove java-1.8.0-openjdk.x86_64```.
@@ -23,7 +25,7 @@ There are a lot of different parts to GraalVM, so while you may have heard of it
 
 In this workshop we will be using GraalVM Enterprise Edition 20.1.0 for JDK 8 which can be downloaded from [OTN - Oracle Technology Network](https://www.oracle.com/downloads/graalvm-downloads.html)
 
-## 1. Setup GraalVM Enterprise Edition
+## 2.1 Setup GraalVM Enterprise Edition
 
 Below are the steps to setup **GraalVM Enterprise Edition 20.1.0 for JDK 8**.
 
@@ -332,7 +334,7 @@ For this workshop we are only use either macOS or Linux. Windows has lesser feat
 
     Next, we will be running some application on GraalVM Enterprise.
 
-## 2. High-performance modern **JIT compiler** for Java.
+## 2.2 High-performance modern JIT compiler for Java
 
 GraalVM in general can be ran in 2 different modes, first as a pure _**JIT compiler**_, and the other as _**AOT (Ahead-of-Time) compiler**_.
 
