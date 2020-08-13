@@ -2,18 +2,18 @@ GraalVM workshop for Reliance group, India
 
 Table of Contents:
 
-* [Exercise 1: Requirements](#exercise-1-requirements)
-* [Exercise 2: GraalVM Enterprise](#exercise-2-graalvm-enterprise)
+* **[Exercise 1: Requirements](#exercise-1-requirements)**
+* **[Exercise 2: GraalVM Enterprise](#exercise-2-graalvm-enterprise)**
    * [Exercise 2.1: Setup GraalVM Enterprise Edition](#exercise-21-setup-graalvm-enterprise-edition)
-   * [Exercise 2.2: High-performance modern JIT compiler for Java](#2.2-high-performance-modern-jit-compiler-for-java)
-   * [Exercise 2.3: Ahead-of-Time (AOT) Compiler for Java Bytecode](#2.2-high-performance-modern-jit-compiler-for-java)
-   * [Exercise 2.4: Polyglot - Combine JavaScript, Java, and R](#2.2-high-performance-modern-jit-compiler-for-java)
-* [Exercise 3: Microservices](#exercise-3-microservices)
-   * [Exercise 3.1: Creating native image inside Docker](#2.2-high-performance-modern-jit-compiler-for-java)
-   * [Exercise 3.2: Sending a request to the application](#2.2-high-performance-modern-jit-compiler-for-java)
-* [Exercise 4: SpringBoot](#exercise-4-springboot)
-   * [Exercise 4.1: Clone the sample SpringBoot Application](#2.2-high-performance-modern-jit-compiler-for-java)
-   * [Exercise 4.2: Compile and run the application using GraalVM Native Image](#2.2-high-performance-modern-jit-compiler-for-java)
+   * [Exercise 2.2: High-performance modern JIT compiler for Java](#exercise-22-high-performance-modern-jit-compiler-for-java)
+   * [Exercise 2.3: Ahead-of-Time (AOT) Compiler for Java Bytecode](#exercise-23-ahead-of-time-aot-compiler-for-java-bytecode)
+   * [Exercise 2.4: Polyglot - Combine JavaScript, Java, and R](#exercise-24-polyglot---combine-javascript-java-and-r)
+* **[Exercise 3: Microservices](#exercise-3-microservices)**
+   * [Exercise 3.1: Creating native image inside Docker](#exercise-31-creating-native-image-inside-docker)
+   * [Exercise 3.2: Sending a request to the application](#exercise-32-sending-a-request-to-the-application)
+* **[Exercise 4: SpringBoot](#exercise-4-springboot)**
+   * [Exercise 4.1: Clone the sample SpringBoot Application](#exercise-41-clone-the-sample-springboot-application)
+   * [Exercise 4.2: Compile and run the application using GraalVM Native Image](#exercise-42-compile-and-run-the-application-using-graalvm-native-image)
 
 
 # Exercise 1: Requirements
